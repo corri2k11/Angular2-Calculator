@@ -195,6 +195,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="package.json" />
+    <None Include="Properties\PublishProfiles\MyWindowsHosting.pubxml" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -220,6 +221,11 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
+    <Content Include="typings\globals\angular-protractor\typings.json" />
+    <Content Include="typings\globals\core-js\typings.json" />
+    <Content Include="typings\globals\jasmine\typings.json" />
+    <Content Include="typings\globals\node\typings.json" />
+    <Content Include="typings\globals\selenium-webdriver\typings.json" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\app.component.spec.ts" />
@@ -228,6 +234,12 @@
     <TypeScriptCompile Include="app\calculator.component.ts" />
     <TypeScriptCompile Include="app\calculator.service.ts" />
     <TypeScriptCompile Include="app\main.ts" />
+    <TypeScriptCompile Include="typings\globals\angular-protractor\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\core-js\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\jasmine\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\selenium-webdriver\index.d.ts" />
+    <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
