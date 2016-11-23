@@ -23,7 +23,6 @@ import { CalculatorService } from './calculator.service'
                  <button class="btn btn-default btn-lg  calculatorButton" (click)='display(5)'>5</button>
                  <button class="btn btn-default btn-lg  calculatorButton" (click)='display(6)'>6</button>                    
                  <button class="btn btn-default btn-lg  calculatorButton" (click)='multiply()'>&times;</button>
-
                  <button class="btn btn-default btn-lg  calculatorButton" (click)='display(1)'>1</button>
                  <button class="btn btn-default btn-lg  calculatorButton" (click)='display(2)'>2</button>
                  <button class="btn btn-default btn-lg  calculatorButton" (click)='display(3)'>3</button>
@@ -76,7 +75,7 @@ export class CalculatorComponent {
 
     multiply() {
         this.SaveValue();
-        this._operation = "multiply*";
+        this._operation = "multiply";
         this._displayValue = '0';
     }
 
