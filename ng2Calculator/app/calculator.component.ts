@@ -7,96 +7,136 @@ import { CalculatorService } from './calculator.service'
     template: `<div class="calculator">
                  <!-- Display section -->
                  
-                 <span id="calculatorScreen" 
-                       class="calculatorScreen" 
+                 <span class="calculatorScreen" 
                        style="display: block">
-                    {{_displayValue}}
+                    {{_displayedValue}}
                  </span>
 
                  <!-- Button section -->
-                 <button class="btn btn-default btn-lg calculatorButton" (click)='display(7)'>7</button>
-                 <button class="btn btn-default btn-lg calculatorButton" (click)='display(8)'>8</button>
-                 <button class="btn btn-default btn-lg calculatorButton" (click)='display(9)'>9</button>                    
-                 <button class="btn btn-default btn-lg calculatorButton" (click)='divide()'>&divide;</button>
+                 <button class="btn btn-default btn-lg calculatorButton" (click)="display('7')">7</button>
+                 <button class="btn btn-default btn-lg calculatorButton" (click)="display('8')">8</button>
+                 <button class="btn btn-default btn-lg calculatorButton" (click)="display('9')">9</button>                    
+                 <button class="btn btn-default btn-lg calculatorButton" (click)="divide()">&divide;</button>
 
-                 <button class="btn btn-default btn-lg  calculatorButton" (click)='display(4)'>4</button>
-                 <button class="btn btn-default btn-lg  calculatorButton" (click)='display(5)'>5</button>
-                 <button class="btn btn-default btn-lg  calculatorButton" (click)='display(6)'>6</button>                    
-                 <button class="btn btn-default btn-lg  calculatorButton" (click)='multiply()'>&times;</button>
-                 <button class="btn btn-default btn-lg  calculatorButton" (click)='display(1)'>1</button>
-                 <button class="btn btn-default btn-lg  calculatorButton" (click)='display(2)'>2</button>
-                 <button class="btn btn-default btn-lg  calculatorButton" (click)='display(3)'>3</button>
-                 <button class="btn btn-default btn-lg calculatorButton" (click)='subtract()'>-</button>
+                 <button class="btn btn-default btn-lg  calculatorButton" (click)="display('4')">4</button>
+                 <button class="btn btn-default btn-lg  calculatorButton" (click)="display('5')">5</button>
+                 <button class="btn btn-default btn-lg  calculatorButton" (click)="display('6')">6</button>                    
+                 <button class="btn btn-default btn-lg  calculatorButton" (click)="multiply()">&times;</button>
 
-                 <button class="btn btn-default btn-lg calculatorButton" (click)='clear()'>C</button>
-                 <button class="btn btn-default btn-lg calculatorButton" (click)='display(0)'>0</button>
-                 <button class="btn btn-default btn-lg calculatorButton" (click)='calculateResult()'>=</button>
-                 <button class="btn btn-default btn-lg calculatorButton" (click)='add()'>+</button>
+                 <button class="btn btn-default btn-lg  calculatorButton" (click)="display('1')">1</button>
+                 <button class="btn btn-default btn-lg  calculatorButton" (click)="display('2')">2</button>
+                 <button class="btn btn-default btn-lg  calculatorButton" (click)="display('3')">3</button>
+                 <button class="btn btn-default btn-lg calculatorButton" (click)="subtract()">-</button>
+
+                 <button class="btn btn-default btn-lg calculatorButton" (click)="clear()">C</button>
+                 <button class="btn btn-default btn-lg calculatorButton" (click)="display('0')">0</button>
+                 <button class="btn btn-default btn-lg calculatorButton" (click)="calculateResult(true)">=</button>
+                 <button class="btn btn-default btn-lg calculatorButton" (click)="add()">+</button>
             </div>`,
     providers: [CalculatorService]
 })
 export class CalculatorComponent {   
-    _displayValue = '0';
-    _memoryValue: any = null;
-    _operation = '';
-    _calcService: CalculatorService; 
+    _displayedValue: string = '';
+    _inMemoryValue: string = '0';
+    _operation: string = '';
+    _resultValue: string = '0';
+    _tempValue: string = '';
+    _calcService: CalculatorService;
 
     constructor(calculatorServ: CalculatorService) {
         this._calcService = calculatorServ;
     }
 
-    display(num: string) {
-        this._displayValue = num;
-        this.SaveValue();
-    }
-
-    SaveValue() {
-        if (this._memoryValue == null)
-            this._memoryValue = this._displayValue;
+    display(inputNum: string) {
+        console.log(" _inMemoryValue: " + this._inMemoryValue);
+        this._displayedValue += inputNum;
+        //if (this._displayedValue === '0' && this._inMemoryValue === '0') {            
+        if (this._inMemoryValue == '0') {
+            //Replaces the initial zero value displayed in screen and stored in memory with the first entered value
+            //this._displayedValue = inputNum;
+            this._inMemoryValue = inputNum;
+            console.log(" _inMemoryValue: " + this._inMemoryValue);
+        }
+        else {
+            //Appends the last entered value to the lcd display and in memory value
+            //this._displayedValue += inputNum;
+            this._inMemoryValue = this._inMemoryValue + inputNum;
+            console.log("(appended) _inMemoryValue: " + this._inMemoryValue + " result: " + this._resultValue);
+        }
     }
 
     add() {
-        this.SaveValue();
-        this._operation = "add";
-        this._displayValue = '0';
+        console.log("Add");
+        this._operation = 'add';
+        this._displayedValue += ' + ';
+        this.calculateResult(false);
     }
 
     subtract() {
-        this.SaveValue();
-        this._operation = "subtract";
-        this._displayValue = '0';
+        console.log("subtract");
+        this._operation = 'subtract';
+        this._displayedValue += ' - ';
+
+        if ((this._resultValue == '0' && this._displayedValue.match(/-/g) || []).length == 1) {
+            this._resultValue = this._inMemoryValue;
+        } else
+            this.calculateResult(false);
+
+        this._inMemoryValue = '0';
     }
 
     divide() {
-        this.SaveValue();
-        this._operation = "divide";
-        this._displayValue = '0';
+        this._operation = 'divide';
+        this._displayedValue += ' ÷ ';                
+
+        if ((this._resultValue == '0' && this._displayedValue.match(/÷/g) || []).length == 1) {
+            this._resultValue = this._inMemoryValue;
+        } else
+            this.calculateResult(false);
+
+        this._inMemoryValue = '0';
     }
 
     multiply() {
-        this.SaveValue();
-        this._operation = "multiply";
-        this._displayValue = '0';
+        console.log("Multiply");
+        this._operation = 'multiply';
+        this._displayedValue += ' × ';
+        
+        if ((this._resultValue == '0' && this._displayedValue.match(/×/g) || []).length == 1) {
+            this._resultValue = this._inMemoryValue;
+        } else
+            this.calculateResult(false);
+
+        this._inMemoryValue = '0';
     }
 
     clear() {
-        this._memoryValue = null;
-        this._displayValue = '0';
-        this._operation = '';  
+        this._operation = '';
+        this._displayedValue = '';
+        this._inMemoryValue = '0';
+        this._resultValue = '0';  
     }
 
     //Calls a REST WebAPI Calculator service to perform the arithmetic calculations
     // - An asynchronous ajax call is made to the server
     // - The result is returned in json format
-    calculateResult() {
+    calculateResult(equalBtn: boolean) {
         this._calcService.calculateResult(
-            parseFloat(this._memoryValue),
-            parseFloat(this._displayValue),
+            parseFloat(this._resultValue),
+            parseFloat(this._inMemoryValue),
             this._operation
         ).subscribe(
-            data => this._displayValue = data,
+            data => this._resultValue = data,
             error => console.error('Error: ' + error),
-            () => console.log('Successful operation')
+            () => {
+                this._inMemoryValue = '0';
+
+                if (equalBtn)
+                    this._displayedValue = this._resultValue;
+
+                console.log('this._resultValue = ' + this._resultValue);
+                console.log('Successful operation');
+            }
         );
     }
 }

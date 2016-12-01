@@ -8,6 +8,7 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": true,
+    "rootDir": "app",
     "suppressImplicitAnyIndexErrors": true
   },
   "compileOnSave": true
