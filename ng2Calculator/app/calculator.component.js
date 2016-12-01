@@ -16,25 +16,16 @@ var CalculatorComponent = (function () {
         this._inMemoryValue = '0';
         this._operation = '';
         this._resultValue = '0';
-        this._tempValue = '';
         this._calcService = calculatorServ;
     }
     CalculatorComponent.prototype.display = function (inputNum) {
-        console.log(" _inMemoryValue: " + this._inMemoryValue);
         this._displayedValue += inputNum;
-        //if (this._displayedValue === '0' && this._inMemoryValue === '0') {            
-        if (this._inMemoryValue == '0') {
+        if (this._inMemoryValue == '0')
             //Replaces the initial zero value displayed in screen and stored in memory with the first entered value
-            //this._displayedValue = inputNum;
             this._inMemoryValue = inputNum;
-            console.log(" _inMemoryValue: " + this._inMemoryValue);
-        }
-        else {
+        else
             //Appends the last entered value to the lcd display and in memory value
-            //this._displayedValue += inputNum;
             this._inMemoryValue = this._inMemoryValue + inputNum;
-            console.log("(appended) _inMemoryValue: " + this._inMemoryValue + " result: " + this._resultValue);
-        }
     };
     CalculatorComponent.prototype.add = function () {
         console.log("Add");
@@ -89,7 +80,6 @@ var CalculatorComponent = (function () {
             _this._inMemoryValue = '0';
             if (equalBtn)
                 _this._displayedValue = _this._resultValue;
-            console.log('this._resultValue = ' + _this._resultValue);
             console.log('Successful operation');
         });
     };

@@ -40,7 +40,6 @@ export class CalculatorComponent {
     _inMemoryValue: string = '0';
     _operation: string = '';
     _resultValue: string = '0';
-    _tempValue: string = '';
     _calcService: CalculatorService;
 
     constructor(calculatorServ: CalculatorService) {
@@ -48,21 +47,14 @@ export class CalculatorComponent {
     }
 
     display(inputNum: string) {
-        console.log(" _inMemoryValue: " + this._inMemoryValue);
         this._displayedValue += inputNum;
-        //if (this._displayedValue === '0' && this._inMemoryValue === '0') {            
-        if (this._inMemoryValue == '0') {
+
+        if (this._inMemoryValue == '0')
             //Replaces the initial zero value displayed in screen and stored in memory with the first entered value
-            //this._displayedValue = inputNum;
             this._inMemoryValue = inputNum;
-            console.log(" _inMemoryValue: " + this._inMemoryValue);
-        }
-        else {
+        else
             //Appends the last entered value to the lcd display and in memory value
-            //this._displayedValue += inputNum;
             this._inMemoryValue = this._inMemoryValue + inputNum;
-            console.log("(appended) _inMemoryValue: " + this._inMemoryValue + " result: " + this._resultValue);
-        }
     }
 
     add() {
@@ -134,7 +126,6 @@ export class CalculatorComponent {
                 if (equalBtn)
                     this._displayedValue = this._resultValue;
 
-                console.log('this._resultValue = ' + this._resultValue);
                 console.log('Successful operation');
             }
         );
